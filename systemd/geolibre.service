@@ -1,0 +1,21 @@
+[Unit]
+Description=GeoLibre local GIS platform (Docker)
+Documentation=https://github.com/opengeos/GeoLibre
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker rm -f geolibre
+ExecStart=/usr/local/bin/geolibre-run
+ExecStop=/usr/bin/docker stop -t 30 geolibre
+ExecStopPost=-/usr/bin/docker rm -f geolibre
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+TimeoutStopSec=60
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

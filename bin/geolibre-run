@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+ENV_FILE="${GEOLIBRE_ENV_FILE:-/etc/geolibre/geolibre.env}"
+DOCKER_BIN="${DOCKER_BIN:-/usr/bin/docker}"
+
+die() {
+  printf 'geolibre-run: %s\n' "$*" >&2
+  exit 1
+}
+
+env_get() {
+  awk -F= -v key="$1" '$1 == key { sub(/^[^=]*=/, ""); print; exit }' "$ENV_FILE"
+}
+
+[[ -r "$ENV_FILE" ]] || die "kann $ENV_FILE nicht lesen"
+
+IMAGE="$(env_get GEOLIBRE_IMAGE)"
+PORT="$(env_get GEOLIBRE_PORT)"
+DATA_DIR="$(env_get GEOLIBRE_DATA_DIR)"
+
+[[ -n "$IMAGE" ]] || die "GEOLIBRE_IMAGE ist leer"
+[[ "$PORT" =~ ^[0-9]+$ ]] || die "ungültiges GEOLIBRE_PORT: $PORT"
+(( PORT >= 1 && PORT <= 65535 )) || die "ungültiges GEOLIBRE_PORT: $PORT"
+[[ "$DATA_DIR" = /* ]] || die "GEOLIBRE_DATA_DIR muss absolut sein"
+
+install -d -m 0750 "$DATA_DIR"
+
+exec "$DOCKER_BIN" run --rm --name geolibre \
+  --env-file "$ENV_FILE" \
+  -p "0.0.0.0:${PORT}:80" \
+  -v "${DATA_DIR}:/data" \
+  "$IMAGE"
