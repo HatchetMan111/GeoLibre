@@ -15,16 +15,15 @@ container, installs Docker CE, runs the official
 ## Install
 
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/OWNER/geolibre-proxmox/main/install/geolibre.sh)"
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/HatchetMan111/GeoLibre/main/install/geolibre.sh)"
 ```
 
-Replace `OWNER` with the GitHub account that hosts this repository. The
-installer prints the final URL, e.g. `http://192.168.1.50:8080`.
+The installer prints the final URL, e.g. `http://192.168.1.50:8080`.
 
 Options can be passed to the one-liner after `_`:
 
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/OWNER/geolibre-proxmox/main/install/geolibre.sh)" _ --port 8081
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/HatchetMan111/GeoLibre/main/install/geolibre.sh)" _ --port 8081
 ```
 
 Or to a downloaded copy:

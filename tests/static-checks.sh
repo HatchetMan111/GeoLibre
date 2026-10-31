@@ -110,7 +110,7 @@ fi
 
 check_file "tests/reboot-test.sh"
 check_file "README.md"
-check_grep "README.md" 'raw\.githubusercontent\.com/OWNER/geolibre-proxmox/main/install/geolibre\.sh' "README has the one-liner"
+check_grep "README.md" 'raw\.githubusercontent\.com/HatchetMan111/GeoLibre/main/install/geolibre\.sh' "README has the one-liner"
 check_grep "README.md" '^## Update$' "README documents update"
 check_grep "README.md" '^## Uninstall$' "README documents uninstall"
 check_grep "README.md" 'pct destroy' "README documents CT deletion"
